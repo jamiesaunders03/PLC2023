@@ -1,13 +1,23 @@
 {-# OPTIONS_GHC -fno-warn-type-defaults  -fno-warn-missing-signatures #-}
 module Main where
 
--- import System.Environment (getArgs)
+import System.Environment (getArgs)
 
 main =
   do
-  -- [sizeS] <- getArgs
-  let sizeS = "15"
-  sequence_ (map putStrLn (circleLines (read sizeS)))
+  args <- getArgs
+  case args of 
+    [size] -> drawCirc (read size)
+    _ -> error $ "Missing argument"
+
+drawCirc :: Integer -> IO ()
+drawCirc 0 = putStr ""
+drawCirc size = do 
+  sequence_ (map putStrLn (circleLines size))
+  putStrLn ""
+  drawCirc newSize
+  where
+    newSize = (quot (size * 3) 4)
 
 circleLines :: Integer -> [String]
 circleLines size =
@@ -24,6 +34,6 @@ circleChar size i jj =
   shouldPaint =
     shouldPaintS size
   shouldPaintS s =
-    abs (i^2 + j^2 - s^2) <= s+1
+    abs (i^2 + j^2 - s^2) < s
     where
-    j = jj `div` 2
+    j = div jj 2
