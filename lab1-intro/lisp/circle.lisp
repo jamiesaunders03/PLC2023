@@ -25,14 +25,18 @@
 (defun shouldPaintS (s i j)
   (let
     ((distance (abs (- (+ (* i i) (* j j)) (* s s)))))
-    (<= distance (+ 1 s))))
+    (< distance s)))
 
 ;; An imperative program to print a list of lines:
 (defun write-lines (lines)
   (loop for line in lines do (write-line line)))
 
+(defun draw-circles (size)
+  (write-lines (circleLines size))
+  (when (> size 1) 
+    (terpri)
+    (draw-circles (/ (* 3 size) 4))))
+
 ;; All the above code "teaches" the lisp interpreter new functions.
 ;; The following line has a direct effect:
-(write-lines (circleLines 
-  15))
-  ;; (parse-integer (first *args*))))
+(draw-circles (parse-integer (first *args*)))
