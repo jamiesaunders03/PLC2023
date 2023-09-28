@@ -11,7 +11,7 @@ main =
     _ -> error $ "Missing argument"
 
 drawCirc :: Integer -> IO ()
-drawCirc 0 = putStr ""
+drawCirc 0 = pure ()
 drawCirc size = do 
   sequence_ (map putStrLn (circleLines size))
   putStrLn ""
