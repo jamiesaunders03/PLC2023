@@ -65,9 +65,14 @@ public class Exp1
             a + b * (- a + 1/b);
         return result;
     }
+
+    private static float exp2(float a, float b) {
+        return a + (1 / (a + b)) + (a * b);
+    }
   
     public static void main(String[] args)
     {
+        System.out.println(exp2(7, 13));
         System.out.println
            (exp1(getFloat("a"), getFloat("b")));
     }
