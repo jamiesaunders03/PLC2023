@@ -63,7 +63,7 @@ public class Overflow
         for ( int i = 1; i <= m; i++ )
         {
             int nextPower = power * n;
-//             assert ?? : "power: Integer overflow";
+            // assert power <= Inf : "power: Integer overflow";
             result.add(nextPower);
             power = nextPower;
         }
@@ -86,7 +86,7 @@ public class Overflow
         for ( int i = 1; i <= m; i++ )
         {
             power = power * n;
-//             assert ?? : "Floating-point overflow";
+            assert power != Float.POSITIVE_INFINITY : "Floating-point overflow";
             result.add(power);
         }
         return result;
@@ -112,7 +112,7 @@ public class Overflow
         for ( int i = 0; i <= m; i++ )
         {
             power = power / n; // update from 1/n^(i-1) to 1/n^i
-//             assert ?? : "Floating point underflow";
+            assert sum + power != sum : "Floating point underflow";
             sum = sum + power;
             result.add(sum);
         }
