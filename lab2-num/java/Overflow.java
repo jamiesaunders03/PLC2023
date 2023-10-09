@@ -1,3 +1,4 @@
+import java.math.*;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -119,6 +120,19 @@ public class Overflow
         return result;
     }
 
+    private static List<Fraction> geom_rat(float n, int m) 
+    {
+        assert m >= 0 : ("illegal power " + m);
+
+        List<Fraction> result = new LinkedList<Fraction>();
+
+        float power = 1;
+        Fraction sum = new Fraction(1);
+        result.add(sum);
+
+        return result;
+    }
+
     public static void main(String[] args)
     {
         int n = getPositiveInteger("n");
@@ -129,7 +143,8 @@ public class Overflow
         {
             case 1: System.out.println(power_fp(n,m)); break;
             case 2: System.out.println(power(n,m)); break;
-            case 3: System.out.println(geom_fp(n,m));
+            case 3: System.out.println(geom_fp(n,m)); break;
+            case 4: System.out.println("");
         }
     }
 }
