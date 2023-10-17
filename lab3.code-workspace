@@ -1,16 +1,16 @@
 {
 	"folders": [
     {
-      "path": "c"
+      "path": "lab3-primit/c"
     },
     {
-      "path": "java"
+      "path": "lab3-primit/java"
     },
     {
-      "path": "lisp"
+      "path": "lab3-primit/lisp"
     },
     {
-      "path": "haskell"
+      "path": "lab3-primit/haskell"
     }
 	],
 	"settings": {}
