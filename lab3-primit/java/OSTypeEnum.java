@@ -55,8 +55,26 @@ public class OSTypeEnum
         return type;
     }
 
-    public static void main(String[] args)
+    private static OS ost2OS(OSType ost) 
     {
+        OS os = null;
+        switch (ost) 
+        {
+            case MOBILE:
+                os = OS.ANDROID;
+                break;
+            case DESKTOP:
+                os = OS.WINDOWS8;
+                break;
+            case EMBEDDED:
+                os = OS.VXWORKS;
+                break;
+        }
+
+        return os;
+    }
+
+    private static void showOsToType() {
         System.out.print("Known OSs = ");
         for (OS t : EnumSet.allOf(OS.class)) 
         {
@@ -66,5 +84,23 @@ public class OSTypeEnum
         
         OS os = getEnumElement("operating system", OS.class);
         System.out.println(os + " is of type: " + os2OSType(os));
+    }
+
+    private static void showTypeToOs() 
+    {
+        System.out.print("Known Types = ");
+        for (OSType t : EnumSet.allOf(OSType.class)) 
+        {
+            System.out.print(t + " ");
+        }
+        System.out.println();
+        
+        OSType ost = getEnumElement("operating system type", OSType.class);
+        System.out.println(ost2OS(ost) + " is an example of a " + ost + " operating system");
+    }
+
+    public static void main(String[] args)
+    {
+        showTypeToOs();
     }
 }
