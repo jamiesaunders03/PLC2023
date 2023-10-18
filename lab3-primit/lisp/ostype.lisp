@@ -45,11 +45,37 @@
                 (write-line "Invalid OS, please try again.")
                 (get-os))))) ;start over using recursion
 
-(write-string "Known OSs: ")
-(write-string (format nil "~A~%" os-names)) 
-    ;"~%" means end of line
-    ;"~A" means format a symbol aesthetically
+(defun get-type ()
+    (write-string (format nil "input Type: ~%"))
+    (let*
+        ((line (read-line)) ;get a line as a string
+         (element (read-from-string line))) ;parse the line
+        (if (os-typep element) ;is element a valid OS name?
+            ; then:
+            element ;yes, return it
+            ; else:
+            (progn ; progn = evaluate a sequence of expressions and return the result of the last one
+                (write-line "Invalid Type, please try again.")
+                (get-type))))) ;start over using recursion
 
-(let ((os-name (get-os)))
-    (write-string
-        (format nil "~A is of type: ~A~%" os-name (os-name-to-type os-name))))
+(defun choseOs ()
+    (write-string "Known OSs: ")
+    (write-string (format nil "~A~%" os-names)) 
+        ;"~%" means end of line
+        ;"~A" means format a symbol aesthetically
+
+    (let ((os-name (get-os)))
+        (write-string
+            (format nil "~A is of type: ~A~%" os-name (os-name-to-type os-name)))))
+
+(defun choseType ()
+    (write-string "Known Types: ")
+        (write-string (format nil "~A~%" os-types)) 
+            ;"~%" means end of line
+            ;"~A" means format a symbol aesthetically
+
+        (let ((os-type (get-type)))
+            (write-string
+                (format nil "~A is an example of a ~A OS" (os-type-to-name os-type) os-type))))
+
+(choseType)

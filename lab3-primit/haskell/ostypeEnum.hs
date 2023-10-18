@@ -6,9 +6,19 @@ import Data.Char (toUpper)
 main =
     do
     initialiseIO
+    getType
+
+getOs = 
+    do
     putStrLn $ "known OSs = " ++ show allOSs
     os <- getElement "operating system"
     putStrLn $ show os ++ " is of type: " ++ show (os2OSType os)
+
+getType = 
+    do
+    putStrLn $ "Known Types = " ++ show allTypes
+    ost <- getElement "operating system type"
+    putStrLn $ show (ost2OS ost) ++ " is an example of a " ++ show ost ++ " OS"
 
 initialiseIO =
     do
@@ -30,6 +40,8 @@ data OSType = DESKTOP | EMBEDDED | MOBILE
 
 allOSs :: [OS] -- ie it is a list of OS elements
 allOSs = [minBound .. maxBound]
+allTypes :: [OSType]
+allTypes = [minBound .. maxBound]
 
 os2OSType ANDROID = MOBILE
 os2OSType IOS = MOBILE
@@ -37,6 +49,10 @@ os2OSType MACOSX = DESKTOP
 os2OSType WINDOWS8 = DESKTOP
 os2OSType WP8 = MOBILE
 os2OSType VXWORKS = EMBEDDED
+
+ost2OS MOBILE = ANDROID
+ost2OS DESKTOP = MACOSX
+ost2OS EMBEDDED = VXWORKS
 
 getElement elementTypeName =
     keepTrying
