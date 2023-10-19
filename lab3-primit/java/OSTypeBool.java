@@ -32,14 +32,19 @@ public class OSTypeBool
         return result;
     }
 
-    private static OSType os2OSType(OS os)
+    private static OSType os2OSType(OS os) throws Exception
     {
         OSType type =
             (os == OS.ANDROID || os == OS.IOS || os == OS.WP8 ? OSType.MOBILE :
                 (os == OS.WINDOWS8 || os == OS.MACOSX ? OSType.DESKTOP :
-                    (os == OS.VXWORKS ? OSType.EMBEDDED)
+                    (os == OS.VXWORKS ? OSType.EMBEDDED : null)
                 )
             );
+
+        if (type == null) 
+        {
+            throw new Exception("Unknown OS Type");
+        }
         /*
             !!!! Beware: The above is not a recommended programming style.
             !!!!         It is used here only to develop understanding of
@@ -48,7 +53,7 @@ public class OSTypeBool
         return type;
     }
 
-    public static void main(String[] args)
+    public static void main(String[] args) throws Exception
     {
         System.out.print("Known OSs = ");
         for (OS t : EnumSet.allOf(OS.class))

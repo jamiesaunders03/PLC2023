@@ -1,3 +1,4 @@
+
 public class UnicodeLength
 {
 
@@ -12,7 +13,17 @@ public class UnicodeLength
 
     private static int unicodeLength(String s)
     {
-        return 0; // TODO
+        int len = 0;
+        final int strLen = s.length();
+        for (int offset = 0; offset < strLen; ) 
+        {
+            int codepoint = s.codePointAt(offset);
+            offset += Character.charCount(codepoint);
+
+            ++len;
+        }
+
+        return len;
     }
 
     public static void main(String[] args)
