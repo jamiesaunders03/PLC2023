@@ -5,20 +5,6 @@ data Month -- enum type definition
     | JUL | AUG | SEP | OCT | NOV | DEC
     deriving (Show, Eq)
 
--- simple pattern matching:
--- monthNum JAN = 1
--- monthNum FEB = 2
--- monthNum _ = 0 -- default case
--- ...
-
--- or, equivalently:
---
--- monthNum m = 
---     case m of
---         JAN -> 1
---         FEB -> 2
---         _ -> 0 -- default case
-
 type Day_Number = Int
 type Year = Int
 
@@ -47,8 +33,7 @@ theDay3 = DateConstr 14 FEB 1901
 
 -- constructing tuples of predefined types:
 twoDates = (theDay, theDay2) -- a pair
-simpleDate1 = (10, JAN, 1901) :: (Int, Month, Int) -- a triple and its type
-simpleDate2 = (,,) 10 JAN 1901 -- the same triple with visible constructor symbol
+simpleDate1 = (10, JAN, 1901) -- a triple
 
 -- pattern matching tuples of predefined types:
 twoDatesEqual (d1, d2) = (d1 == d2)
