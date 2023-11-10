@@ -7,12 +7,25 @@ data Accommodation
           acc_house_number :: Int,
           acc_floor_count :: Int
       }
+    | AccFlat 
+      {
+          acc_street :: String,
+          acc_house_number :: Int,
+          acc_floor_num :: Int
+      }
 
 instance (Show Accommodation) where -- how to format values of type Accommodation
     show (AccHouse street num floor_count) =
         concat
             [show floor_count,
              " storey house at ",
+             show num,
+             " ",
+             street]
+    show (AccFlat street num floor_num) =
+        concat
+            [showFloorTh floor_num,
+             " floor flat at ",
              show num,
              " ",
              street]
@@ -42,22 +55,20 @@ myHouseB =
         acc_floor_count = 6
     }
 
-{-
 myFlat1 =
     AccFlat "Silver Street" 81 0
 
 myFlat2 =
     AccFlat "Silver Street" 81 7
--}
 
 main =
     do
---     putStr "myHouse and myHouseB are on the same street. "
---     putStrLn $ show $ sameStreet (myHouse, myHouseB)
---     putStrLn ""
+    putStr "myHouse and myHouseB are on the same street. "
+    putStrLn $ show $ sameStreet (myHouse, myHouseB)
+    putStrLn ""
     putStrLn $ show myHouse
---     putStrLn $ show myFlat1
---     putStrLn $ show myFlat2
+    putStrLn $ show myFlat1
+    putStrLn $ show myFlat2
 
-sameStreet acc1 acc2 = -- Task 4.2.(b): fix this function
+sameStreet (acc1, acc2) = 
     (acc_street acc1 == acc_street acc2)
