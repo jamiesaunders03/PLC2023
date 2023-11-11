@@ -40,16 +40,15 @@ procedure Accom is
         if accom.accom_variant = ACCKIND_HOUSE then
             Put(accom.floor_count, 0); -- 0 means: put no spaces before the number
             Put(" storey house at ");
-            Put(accom.house_number, 0);
-            Put(" ");
-            Put(To_String(accom.street));
         else 
             Put_FloorTh(accom.floor);
             Put(" floor flat at ");
-            Put(accom.house_number, 0);
-            Put(" ");
-            Put(To_String(accom.street));
         end if;
+        
+        Put(accom.house_number, 0);
+        Put(" ");
+        Put(To_String(accom.street));
+        
     end Put_Accommodation;
 
     myHouse : Accommodation
