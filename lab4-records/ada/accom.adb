@@ -7,11 +7,17 @@ use Ada.Strings.Unbounded;
 
 procedure Accom is
 
-    type Accommodation is
+    type AccomVariant is (ACCKIND_HOUSE,ACCKIND_FLAT);
+    type Accommodation (accom_variant : AccomVariant) is
         record
             street : Unbounded_String;
             house_number : Integer;
-            floor_count : Integer;
+            case accom_variant is 
+                when ACCKIND_HOUSE =>
+                    floor_count : Integer;
+                when ACCKIND_FLAT =>
+                    floor : Integer;
+            end case;
         end record;
 
     procedure Put_FloorTh(floor : Integer) is
@@ -31,35 +37,44 @@ procedure Accom is
 
     procedure Put_Accommodation(accom : Accommodation) is
     begin
-        Put(accom.floor_count, 0); -- 0 means: put no spaces before the number
-        Put(" storey house at ");
-        Put(accom.house_number, 0);
-        Put(" ");
-        Put(To_String(accom.street));
+        if accom.accom_variant = ACCKIND_HOUSE then
+            Put(accom.floor_count, 0); -- 0 means: put no spaces before the number
+            Put(" storey house at ");
+            Put(accom.house_number, 0);
+            Put(" ");
+            Put(To_String(accom.street));
+        else 
+            Put_FloorTh(accom.floor);
+            Put(" floor flat at ");
+            Put(accom.house_number, 0);
+            Put(" ");
+            Put(To_String(accom.street));
+        end if;
     end Put_Accommodation;
 
     myHouse : Accommodation
-        := (house_number => 111,
+        := (accom_variant => ACCKIND_HOUSE,
+            house_number => 111,
             street => To_Unbounded_String("Golden Avenue"),
             floor_count => 4);
 
---     myFlat1 : Accommodation
---         := (accom_variant => ACCKIND_FLAT, -- the discriminant
---             house_number => 81,
---             street => To_Unbounded_String("Silver Street"),
---             floor => 0);
---
---     myFlat2 : Accommodation
---         := (accom_variant => ACCKIND_FLAT, -- the discriminant
---             house_number => 81,
---             street => To_Unbounded_String("Silver Street"),
---             floor => 7);
+   myFlat1 : Accommodation
+       := (accom_variant => ACCKIND_FLAT, -- the discriminant
+           house_number => 81,
+           street => To_Unbounded_String("Silver Street"),
+           floor => 0);
+
+   myFlat2 : Accommodation
+       := (accom_variant => ACCKIND_FLAT, -- the discriminant
+           house_number => 81,
+           street => To_Unbounded_String("Silver Street"),
+           floor => 7);
 
 begin
     Put_Accommodation(myHouse);
     Put_Line("");
---     Put_Accommodation(myFlat1);
---     Put_Line("");
---     Put_Accommodation(myFlat2);
---     Put_Line("");
+    Put_Accommodation(myFlat1);
+    Put_Line("");
+    Put_Accommodation(myFlat2);
+    Put_Line("");
 end Accom;
