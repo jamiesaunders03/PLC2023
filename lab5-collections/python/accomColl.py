@@ -108,7 +108,10 @@ myFlat2.floor = 7
 things = [111, myHouse1, [1,2], myHouse2, "a string", myFlat1, myFlat2]
 
 allAccommodation_0 = \
-    [] #TASK 5.3.(c)  -- replace [] by a list comprehension
+    [accom for accom in things if type(accom) in (House, Flat)] #TASK 5.3.(c)  -- replace [] by a list comprehension
+print("All accom 0:")
+print(*[f" {accom}" for accom in allAccommodation_0], sep="\n")
+print()
 
 allAccommodation = \
     [myHouse1, myHouse2, myFlat1, myFlat2]
@@ -125,21 +128,21 @@ for street in streets:
     print(" ", street)
 
 # empty line
-print
+print()
 
 flats = \
     [accom for accom in allAccommodation if accom.__class__ == Flat]
 
 # extract floor counts from houses:
 houseFloorsSequence = \
-    [] # TASK 5.3.(b)  -- replace [] by a list comprehension
+    [accom.floors for accom in allAccommodation if type(accom) == House] # TASK 5.3.(b)  -- replace [] by a list comprehension
 
 print("Floor counts for houses: ")
 for houseFloors in houseFloorsSequence:
     print(" ",houseFloors)
 
 # empty line
-print
+print()
 
 # heterogeneous dictionary:
 accommodation2score = { myHouse1 : 2.0, myFlat1 : "dunno" }

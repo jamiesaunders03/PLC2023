@@ -205,10 +205,23 @@ public class accomColl
 
         // construct a list of floor counts from all houses in allAccommodation:
         List<Integer> houseFloorsSequence = new ArrayList<Integer>();
-        // TASK 5.2.(b): Add code to change this list as described in the comment above.
-        //               Moreover, your code must work as described,
-        //               no matter what the list allAccommodation contains.
+        for (Accommodation accom : allAccommodation) {
+            if (accom instanceof House) {
+                houseFloorsSequence.add(((House)accom).floors);
+            }
+        }
 
         printListPerLine("Floor counts for houses:", houseFloorsSequence);
+        System.out.println();
+
+        Map<Accommodation, Object> accommodation2score = new HashMap<Accommodation, Object>() {{
+            put(myHouse1, 2.0);
+            put(myFlat1, "dunno");
+        }};
+        accommodation2score.forEach((key, value) -> System.out.println(key + " " + value));
+        System.out.println("myHouse1 score: " + accommodation2score.get(myHouse1));
+
+        accommodation2score.put(myHouse1, 2.5);
+        accommodation2score.forEach((key, value) -> System.out.println(key + " " + value));
    }
 }

@@ -132,11 +132,11 @@ flats =
 
 allRoomsFromAllFlats :: [Room]
 allRoomsFromAllFlats =
-    [] -- TASK 5.4.(b): replace "[]" with a list comprehension
+    [ room | flat <- flats, room <- acc_rooms flat ] -- TASK 5.4.(b): replace "[]" with a list comprehension
 
 houseFloorsSequence :: [Int]
 houseFloorsSequence =
-    [] -- TASK 5.4.(a): replace "[]" with a list comprehension
+    [ acc_floor_count house | house <- allAccommodation, isHouse house ] -- TASK 5.4.(a): replace "[]" with a list comprehension
 
 main =
     do
