@@ -75,36 +75,33 @@ def floorTh(n):
 
 ## create some instances of accommodation:
 
-myHouse1 = House \
-    ("Golden Avenue", 111, 3, \
-            [[Room("Kitchen",(450, 310)), Room("Launge",(550,450))], \
-             [Room("Bathroom",(200,180)), Room("Bedroom",(450,390)), Room("Bedroom",(400,320))], \
-             [Room("Bathroom",(180,180)), Room("Bedroom",(410,370)), Room("Bedroom",(380,310))] \
-            ] \
-    )
+myHouse1 = House (
+    "Golden Avenue", 111, 3, [
+        [Room("Kitchen",(450, 310)), Room("Launge",(550,450))],
+        [Room("Bathroom",(200,180)), Room("Bedroom",(450,390)), Room("Bedroom",(400,320))],
+        [Room("Bathroom",(180,180)), Room("Bedroom",(410,370)), Room("Bedroom",(380,310))],
+])
 
-myHouse2 = copy.copy(myHouse1)
+myHouse2 = copy.deepcopy(myHouse1)
 myHouse2.houseNum = 112
 
-myFlat1 = Flat \
-    ("Silver Street", 81, 1, \
-            [Room("Kitchen",(350, 280)), Room("Launge",(400,320)), Room("Bedroom",(320,270))] \
-    )
+myFlat1 = Flat(
+    "Silver Street", 81, 1,
+    [Room("Kitchen",(350, 280)), Room("Launge",(400,320)), Room("Bedroom",(320,270))]
+)
 
-myFlat2 = copy.copy(myFlat1)
+myFlat2 = copy.deepcopy(myFlat1)
 myFlat2.floor = 7
 
 # a heterogeneous list:
 things = [111, myHouse1, [1,2], myHouse2, "a string", myFlat1, myFlat2]
 
-allAccommodation_0 = \
-    [accom for accom in things if type(accom) in (House, Flat)] #TASK 5.3.(c)  -- replace [] by a list comprehension
+allAccommodation_0 = [accom for accom in things if type(accom) in (House, Flat)] 
 print("All accom 0:")
 print(*[f" {accom}" for accom in allAccommodation_0], sep="\n")
 print()
 
-allAccommodation = \
-    [myHouse1, myHouse2, myFlat1, myFlat2]
+allAccommodation = [myHouse1, myHouse2, myFlat1, myFlat2]
 
 print("All accommodation:")
 for accom in allAccommodation:
