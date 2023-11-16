@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 class Board:
     def __init__(self, rows): # constructor
         self.rows = rows
         self.check()
-
+        
     def __repr__(self):  # formatting (like toString())
         result = ""
         for row in self.rows:
@@ -10,37 +11,33 @@ class Board:
                 result = result + cell
             result = result + "\n"
         return result
-
+            
     def check(self):
         # do some dynamic type checking:
         assert len(self.rows) == 3
         for row in self.rows:
             assert len(row) == 3
             for cell in row:
-                assert cell in ["X","O","B"]
-
+                assert cell in ['X','O','B']
+                
     def changeCell(self, cellValue, row, col):
         self.rows[row][col] = cellValue
 
 board1 = Board(
-    [["X","X","O"],
-     ["X","B","O"],
-     ["O","B","B"]])
-    # Python has no arrays, use lists instead
-    # Python has no enumerated types, use strings "X" etc.
+    [['X','X','O'],
+     ['X','B','O'],
+     ['O','B','B']])
+    # Python has no native arrays - use lists instead
+    # Python has no enumerated types - use strings 'X' etc.
 
-board2 = board1 # new name for the same board
-board2.changeCell("X",1,1) # both board1 and board2 change
+board2 = Board(
+    [['X','X','O'],
+     ['X','X','O'],
+     ['O','O','X']])
 
-# a heterogeneous list:
-things = [111, board1, [1,2], board2, "a string"]
-
-boards0 = [] #TASK 5.3.(c) -- replace [] by a list comprehension
-
-boards = [board1, board2]
-
-for board in boards:
-    print(board)
+print(board1)
+board1.changeCell('X',1,1)
+print(board1)
 
 class Move:
     def __init__(self,player,pos): # constructor
@@ -61,61 +58,50 @@ class Pause:
             "A pause of player %s" % (self.player)
                 # Python version of printf
 
-class Win:
-    def __init__(self,player): # constructor
-        self.player = player
-    def __repr__(self): # formatting (like toString())
-        return \
-            "A win of player %s" % (self.player)
-                # Python version of printf
-
 
 # a heterogeneous list
-events = \
-    [Pause("X"),
-     Move("X",[1,1]),
-     Pause("O"),
-     Move("O",[1,2]),
-     Move("X",[2,2]),
-     Win("X")]
+events = [Move("X",[0,0]), Pause("X"), Move("O",[1,0])]
+
+move = Move("X",[0,0])
 
 # print all elements from the list
 for event in events:
     print(event)
 
 # empty line
-#print
+print()
 
 # search for an element of class Pause and print it
-#for event in events:
-    #if event.__class__ == Pause:
-        #print event
-        #break # stop the for loop
+for event in events:
+    if event.__class__ == Pause:
+        print(event)
+        break # stop the for loop
 
+# empty line
+print()
 
 # compute players
 players = [event.player for event in events]
-print(players)
+
+for player in players:
+    print(player)
 
 # empty line
-print
+print()
 
-eventsNoPause = \
-    [event for event in events if not (event.__class__ == Pause)]
+# remove all pauses
+events2 = \
+    [event for event in events if event.__class__ != Pause]
+    
+for event in events2:
+    print(event)
 
-# pick up players who were pausing
-pausingPlayers = \
-    [] # TASK 5.3.(b) -- replace [] by a list comprehension
-
-print("Pausing players:", pausingPlayers)
-
-
-# empty line
-print
+# non-blank fields from a board:
+nonBlankFields = [cell for row in board1.rows for cell in row if cell != "B"]
+print("nonBlankFields = ", nonBlankFields)
 
 # heterogeneous dictionary:
 board2score = { board1 : 2.0, board2 : "dunno" }
-print(board2score)
-print ("board2 score = ", board2score[ board2 ]) # like array lookup
 board2score[ board2 ] = 0.0 # like array update
-print(board2score)
+print(board2score[ board1 ]) # like array lookup
+

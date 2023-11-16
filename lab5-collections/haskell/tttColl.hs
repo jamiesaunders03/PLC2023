@@ -1,11 +1,12 @@
 module Main where
 
 import qualified Data.Map as Map
-import qualified Text.PrettyPrint.HughesPJ as PP
+import qualified Data.List as List
 
-data Player
+data Player 
     = Player_X | Player_O
     deriving (Eq)
+
 instance (Show Player) where
     show Player_X = "X"
     show Player_O = "O"
@@ -19,149 +20,103 @@ instance (Show Cell) where
     show B = "."
 
 data Board
-    = Board [[Cell]] -- list of lists (ie rows) of cells
-    deriving (Eq, -- enable default "equals" testing
-              Ord) -- enable default comparator for sorting
-                   --    lists of boards
+    = Board { board_rows :: [[Cell]] } -- list of lists (ie rows) of cells
+    deriving (Eq, Ord)
 
--- IGNORE THE FOLLOWING, assume it works
 instance (Show Board) where
-    show board =
-        PP.render $ pprintBoard board
-    showList boards _ =
-        -- arrange boards horizontally
-        PP.render $ PP.hsep $ PP.punctuate (PP.text " ") $
-          map pprintBoard boards
+    show (Board rows) =
+        -- show each row and put the rows on separate lines:
+        joinLines $ map showRow $ rows
+            where
+            showRow :: [Cell] -> String
+            showRow cells =
+                -- concatenate cells
+                concat $ map show cells
 
--- IGNORE THE FOLLOWING, assume it works
-pprintBoard (Board rows) =
-    -- print each row and arrange rows vertically
-    PP.vcat $ map pprintRow $ rows
-        where
-        pprintRow cells =
-            -- concatenate cells horizontally
-            PP.hcat $ map (PP.text . show) cells
-
-
--- IGNORE THE FOLLOWING, assume it works
 changeCell (Board rows) cellValue (row,col) =
     Board newRows
         where
-        newRows =
-            updateListElem
+        newRows = 
+            updateListElem 
                 row -- update this index
-                (updateListElem col (const cellValue))
+                (updateListElem col (const cellValue)) 
                         -- using this function, which
-                        -- updates the correct cell in the row
+                        -- updates the cell in the row
                 rows -- in this list
 
-
--- IGNORE THE FOLLOWING, assume it works
 -- modifying one element in a list is a pain...
 -- one needs to construct a new list from scratch
-updateListElem index fn list =
+updateListElem index fn list = 
     (take index list) -- elements up to index: no change
     ++    -- concatenate
     [fn (list !! index)] -- the element that is changed
     ++    -- concatenate
     (drop (index + 1) list) -- the rest does not change
 
-
--- a union type of different kinds of events
-data Event
-    = EventMove -- variant one
-      {
-        ev_player :: Player,
-        ev_pos :: (Int, Int) -- a pair (tuple) type
-      }
-    | EventPause --variant two
-      {
-        ev_player :: Player
-      }
-    | EventWin -- variant three
-      {
-        ev_player :: Player
-      }
-    deriving (Eq)
-
--- check for the Pause variant of the above type
-isPause (EventPause _) = True -- pattern for Pause events
-isPause _ = False -- all other values are not a Pause
-
--- how to format events
-instance (Show Event) where
-    show (EventMove player (row, col)) =
-        "Move of player " ++ show player ++
-            " to (" ++ show row ++ "," ++ show col ++ ")"
-    show (EventPause player) =
-        "Pause of player " ++ show player
-    show (EventWin player) =
-        "Win of player " ++ show player
-
--- example boards
-board1 =
+board1 = 
     Board
     [[X,X,O],
      [O,B,X],
      [O,B,B]]
 
-board2 =
+board2 = 
     changeCell board1 X (1,1)
 
-board3 =
-    Board
-    [[X,X,O],
-     [O,B,X],
-     [O,B]] -- oops a mistake...
+data Event
+    = EventMove
+      {
+        ev_player :: Player,
+        ev_pos :: (Int, Int) -- a pair (tuple) type
+      }
+    | EventPause
+      {
+        ev_player :: Player
+      }
+    deriving (Eq)
 
-board4 =
-    changeCell board3 X (1,1)
+isPause (EventPause _) = True
+isPause _ = False
 
-allBoards = [board1, board2, board3, board4]
+instance (Show Event) where
+    show (EventMove player (row, col)) =
+        "Move of player " ++ show player ++ 
+            " to (" ++ show row ++ "," ++ show col ++ ")"
+    show (EventPause player) =
+        "Pause of player " ++ show player
+        
 
--- (boardOK board) returns a boolean indicating whether
--- the board is of the correct dimensions (3x3).
-boardOK :: Board -> Bool
-boardOK (Board rows) =
-    length rows == 3 && -- check there are 3 rows
-    (and -- takes a list of booleans and checks that
-         -- all of them are true
-        [length row == 3 | row <- rows])
-          -- test whether each row has 3 cells,
-          -- return a list of booleans - results of these tests
-          
-goodBoards =
-    filter boardOK allBoards
-
-
-events =
-    [EventPause Player_X,
-     EventMove Player_X (1,1),
-     EventPause Player_O,
-     EventMove Player_O (1,2),
-     EventMove Player_X (2,2),
-     EventWin Player_X]
+events = 
+    [EventMove Player_X (0,0),
+     EventPause Player_X,
+     EventMove Player_O (1,0)]
 
 players =
     [ ev_player event | event <- events ]
 
-eventsNoPause =
+events2 =
     [ event | event <- events, not (isPause event) ]
 
-playersPause =
-    players -- Task 5.4(a) (delete "players" first)
+board2score =
+    Map.fromList [(board1, 2.0), (board2, 0.0)]
 
-games :: [[Event]]
-games = [events, tail (reverse events), [], [EventWin Player_O]]
-
-pausesAmongGames :: [Event]
-pausesAmongGames =
-    [] -- Task 5.4(b)
-
+nonBlankFields =
+    [cell | row <- board_rows board1, cell <- row, cell /= B]
+    
 main =
     do
-    putStrLn $ "all boards :\n" ++ show allBoards
-    putStrLn $ "good boards :\n" ++ show goodBoards
-    putStrLn $ "games :\n" ++ unlines (map show games)
-    putStrLn $ "pauses among games :\n" ++ unlines (map show pausesAmongGames)
-    putStrLn $ "pausing players: " ++ show playersPause
+    putStrLn $ "board1 = \n" ++ show board1
+    putStrLn $ "board2 = \n" ++ show board2
+    putStrLn $ "events = \n" ++ (showListIndented events) -- one per line
+    putStrLn $ "players = " ++ (show players)
+    putStrLn $ "events2 = \n" ++ (showListIndented events2)
+    putStrLn $ "nonBlankFields = " ++ (show nonBlankFields)
+    case Map.lookup board1 board2score of
+        Nothing -> return ()
+        Just score -> putStrLn $ "board1 score = " ++ show score
+    where
+    showListIndented list =
+        joinLines $ map indent $ map show list
+        where
+        indent line = "    " ++ line
+
+joinLines = List.intercalate "\n"
