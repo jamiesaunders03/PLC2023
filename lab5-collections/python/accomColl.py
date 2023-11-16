@@ -8,9 +8,8 @@ class Room:
     def __init__(self, kind, size): # constructor
         self.kind = kind
         self.size = size
-    def __repr__(self):  # formatting (like toString())
-        result = "%s %dcm x %dcm" % (self.kind, self.size[0], self.size[1])
-        return result
+    def __repr__(self): 
+        return f"{self.kind} {self.size[0]}cm x {self.size[1]}cm"
 
 
 class House:
@@ -22,23 +21,18 @@ class House:
         self.check()
 
     def __repr__(self):  # formatting (like toString())
-        result = "%d storey house" % (self.floors)
-        result += " at %d %s %s" % (self.houseNum, self.street, formatListOfLists(self.roomsPerFloor))
+        result = f"{self.floors} storey house"
+        result += f" at {self.houseNum} {self.street} {formatListOfLists(self.roomsPerFloor)}"
         return result
 
     def check(self):
         # perform dynamic type checking of all components:
-        assert type(self.street) == type("")
-        assert type(self.houseNum) == type(1)
-        assert self.houseNum > 0
-        assert type(self.floors) == type(1)
-        self.floors > 0
-        assert type(self.roomsPerFloor) == type([])
-        assert self.floors == len(self.roomsPerFloor)
+        assert isinstance(self.street, str)
+        assert isinstance(self.houseNum, int) and self.houseNum > 0
+        assert isinstance(self.floors, int) and self.floors > 0
+        assert isinstance(self.roomsPerFloor, list) and self.floors == len(self.roomsPerFloor)
         for floorRooms in self.roomsPerFloor:
-            assert type(floorRooms) == type([])
-            for room in floorRooms:
-                assert room.__class__ == Room
+            assert isinstance(floorRooms, list) and all(isinstance(room, Room) for room in floorRooms)
 
 def formatList(list):
     return map(str, list)
@@ -55,20 +49,16 @@ class Flat:
         self.check()
 
     def __repr__(self):  # formatting (like toString())
-        result = "%s floor flat" % (floorTh(self.floor))
-        result += " at %d %s %s" % (self.houseNum, self.street, formatList(self.rooms))
+        result = f"{floorTh(self.floor)} floor flat"
+        result += f" at {self.houseNum} {self.street} {formatList(self.rooms)}"
         return result
 
     def check(self):
         # perform dynamic type checking of all components:
-        assert type(self.street) == type("")
-        assert type(self.houseNum) == type(1)
-        assert self.houseNum > 0
-        assert type(self.floor) == type(1)
-        self.floor >= 0
-        assert type(self.rooms) == type([])
-        for room in self.rooms:
-            assert room.__class__ == Room
+        assert isinstance(self.street, str)
+        assert isinstance(self.houseNum, int) and self.houseNum > 0
+        assert isinstance(self.floor, int) and self.floor > 0
+        assert isinstance(self.rooms, list) and all(isinstance(room, Room) for room in self.rooms)
 
 def floorTh(n):
     lastDigit = n % 10
@@ -97,7 +87,7 @@ myHouse2 = copy.copy(myHouse1)
 myHouse2.houseNum = 112
 
 myFlat1 = Flat \
-    ("Silver Street", 81, 0, \
+    ("Silver Street", 81, 1, \
             [Room("Kitchen",(350, 280)), Room("Launge",(400,320)), Room("Bedroom",(320,270))] \
     )
 
