@@ -108,8 +108,7 @@ for accom in allAccommodation:
     print(" ", accom)
 
 # extract streets
-streets = \
-    [accom.street for accom in allAccommodation]
+streets = [accom.street for accom in allAccommodation]
 print("\nAccommodation streets:")
 for street in streets:
     print(" ", street)
@@ -117,12 +116,10 @@ for street in streets:
 # empty line
 print()
 
-flats = \
-    [accom for accom in allAccommodation if accom.__class__ == Flat]
+flats = [accom for accom in allAccommodation if isinstance(accom, Flat)]
 
 # extract floor counts from houses:
-houseFloorsSequence = \
-    [accom.floors for accom in allAccommodation if type(accom) == House] # TASK 5.3.(b)  -- replace [] by a list comprehension
+houseFloorsSequence = [accom.floors for accom in allAccommodation if isinstance(accom, House)]
 
 print("Floor counts for houses: ")
 for houseFloors in houseFloorsSequence:
