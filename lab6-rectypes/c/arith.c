@@ -52,6 +52,7 @@ ArithExp * newMinMax(MinMaxOperator op, ArithExp * subExprLeft, ArithExp * subEx
     // initialise the content using the opExpr "view" of the space:
     ArithExpUnion content = { op, subExprLeft, subExprRight };
     // TASK 6.2.(d): add code completing the initialisation
+    result->content = content;
 
     return result;
 }

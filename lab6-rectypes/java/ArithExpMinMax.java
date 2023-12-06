@@ -40,7 +40,8 @@ class ArithExpMinMax extends ArithExp
     {
         // evaluate both operand expressions:
         // TASK 6.2.(b) (Q2): (declare and assign variables leftValue and rightValue)
-
+        int leftValue = this.subExpLeft.getValue();
+        int rightValue = this.subExpRight.getValue();
 
         switch(op)
         {

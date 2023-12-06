@@ -79,12 +79,31 @@ exp1 =
 exp2 :: Expression
 exp2 = makeMax [flipMinMax exp1, flipMinMax exp1]
 
+exp3 :: Expression
+exp3 =
+    MinExp
+        (IntExp 4)
+        (MaxExp
+            (IntExp 5)
+            (IntExp 3))
+
+getNumbers :: Expression -> [Integer]
+getNumbers (IntExp int) = [int]
+getNumbers (MinExp left right) = (getNumbers left) ++ (getNumbers right)
+getNumbers (MaxExp left right) = (getNumbers left) ++ (getNumbers right)
+
+factorial :: Integer -> Integer
+factorial n = if (n <= 1) then 1 else n * factorial(n - 1)
+
 main =
     do
     printExpInfo "exp1" exp1
     printExpInfo "exp1 flipped" (flipMinMax exp1)
     printExpInfo "exp2" exp2
     printExpInfo "exp2 flipped" (flipMinMax exp2)
+    printExpInfo "Task 1" (makeMax [exp1,exp1,exp1])
+    putStrLn $ "Numbers (" ++ (show $ getNumbers exp3) ++ ")"
+    putStrLn $ "Factorial " ++ (show $ factorial 10)
     where
     printExpInfo exprName expr =
         do
