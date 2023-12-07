@@ -9,8 +9,8 @@ use Ada.Containers;
 
 procedure AccomRoomSize is
 
-    LengthCM : Integer;
-    AreaCM2 : Integer;
+    type LengthCM is new Integer;
+    type AreaCM2 is new Integer;
 
     type RoomType is
         (Launge, Bedroom, Kitchen, Bathroom,
