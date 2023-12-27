@@ -67,7 +67,7 @@ procedure AccomRoomSize is
         while i /= RoomLists.No_Element loop
             rm := RoomLists.Element(i);
             -- calculate the area and add it to the result:
-            result := result + (rm.x * rm.y);
+            result := result + AreaCM2(rm.x * rm.y);
             -- advance to the next room:
             RoomLists.Next(i);
         end loop;
