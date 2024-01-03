@@ -52,10 +52,23 @@ public class Flow
         
         System.out.println(formatF1F2F3(f1,f2,f3));
 
-        // 8.3.(c) TASK:
-        //    Write code that is analogous to
-        //    lines 50-55 in flow.cpp except
-        //    that it simulates *copy-in copy-out* passing
-        //    of formal parameters flow1 and flow2 to method adjustDistance.
+        TwoFlows flow1 = new TwoFlows(f2, f3);
+        flow1.adjustDistance();
+        f2 = flow1.flow1;
+        f3 = flow1.flow2;
+        System.out.println(formatF1F2F3(f1,f2,f3));
+
+        TwoFlows flow2 = new TwoFlows(f1, f2);
+        flow2.adjustDistance();
+        f1 = flow2.flow1;
+        f2 = flow2.flow2;
+        System.out.println(formatF1F2F3(f1,f2,f3));
+
+        TwoFlows flow3 = new TwoFlows(f3, f3);
+        flow3.adjustDistance();
+        // As value is copies, not passed by reference, a different outcome will occur here compared to C++ version
+        // I could also assign f3 = flow3.flow1 before the next statement, however, as in this case it would be immediatly overwritten this has been ommited
+        f3 = flow3.flow2;
+        System.out.println(formatF1F2F3(f1,f2,f3));
     }
 }

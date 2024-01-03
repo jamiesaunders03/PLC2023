@@ -15,8 +15,9 @@ public class Reftrans
         // create an int holder:
         h = new IntHolder(1);
 
-        int result1 =
-          (h.i++) + h.i;  // not referentially transparent
+        int result1 = h.i;
+        h.i++;
+        result1 += h.i;
         // TASK 8.2 (a): rewrite the above 2 lines using referentially transparent expressions
 
         // create exactly the same int holder as before:
@@ -24,7 +25,8 @@ public class Reftrans
 
         // like above but swapped the order of addition:
         int result2 =
-          h.i + (h.i++);  // not referentially transparent
+          h.i + h.i;
+        h.i++;
         // TASK 8.2 (a): rewrite the above 2 lines using referentially transparent expressions
 
         System.out.println("result1 = " + result1);
