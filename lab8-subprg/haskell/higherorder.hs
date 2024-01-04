@@ -74,6 +74,9 @@ findOKfnIndices ::
     ((String -> Bool) -> Bool) -> -- a testing "super" function
     [(String -> Bool)] -> -- list of functions
     [Int] -- indices of those that satisfy the testing fn
-findOKfnIndices fnOK fnList =
-    [] -- TODO: optional TASK 8.4.(b) and Q6
+findOKfnIndices fnOK fnList = do
+    let items = filter (\i -> fnOK (snd i)) indexList
+    map fst items
+    where 
+        indexList = (zip [0..] fnList)
 
