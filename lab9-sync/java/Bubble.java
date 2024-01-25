@@ -60,6 +60,7 @@ public class Bubble
          */
         public synchronized void bubble_ab()
         {
+            try { this.wait(); } catch (InterruptedException e) { }
             if (b > a)
                 return;
             
@@ -69,7 +70,6 @@ public class Bubble
 
             print();
             this.notifyAll();
-            try { this.wait(); } catch (InterruptedException e) { }
 
         }
 
@@ -78,6 +78,7 @@ public class Bubble
          */
         public synchronized void bubble_bc()
         {
+            try { this.wait(); } catch (InterruptedException e) { }
             if (c > b)
                 return;
 
@@ -87,7 +88,6 @@ public class Bubble
 
             print();
             this.notifyAll();
-            try { this.wait(); } catch (InterruptedException e) { }
 
         }
 
@@ -96,6 +96,7 @@ public class Bubble
          */
         public synchronized void bubble_cd()
         {
+            try { this.wait(); } catch (InterruptedException e) { }
             if (d > c)
                 return;
 
@@ -105,7 +106,6 @@ public class Bubble
 
             print();
             this.notifyAll();
-            try { this.wait(); } catch (InterruptedException e) { }
 
         }
 
