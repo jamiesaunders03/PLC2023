@@ -60,17 +60,16 @@ public class Bubble
          */
         public synchronized void bubble_ab()
         {
-            /* TASK 9.2.(c) - part 1 */
-
-
-
-
+            if (b > a)
+                return;
+            
             int temp = a;
             a = b;
             b = temp;
 
             print();
-            /* TASK 9.2.(c) - part 2 */
+            this.notifyAll();
+            try { this.wait(); } catch (InterruptedException e) { }
 
         }
 
@@ -79,17 +78,16 @@ public class Bubble
          */
         public synchronized void bubble_bc()
         {
-            /* TASK 9.2.(c) - part 1 */
-
-
-
+            if (c > b)
+                return;
 
             int temp = b;
             b = c;
             c = temp;
 
             print();
-            /* TASK 9.2.(c) - part 2 */
+            this.notifyAll();
+            try { this.wait(); } catch (InterruptedException e) { }
 
         }
 
@@ -98,18 +96,16 @@ public class Bubble
          */
         public synchronized void bubble_cd()
         {
-            /* TASK 9.2.(c) - part 1 */
-
-
-
-
+            if (d > c)
+                return;
 
             int temp = c;
             c = d;
             d = temp;
 
             print();
-            /* TASK 9.2.(c) - part 2 */
+            this.notifyAll();
+            try { this.wait(); } catch (InterruptedException e) { }
 
         }
 
@@ -182,14 +178,20 @@ public class Bubble
         // start the bubble threads:
         /* TASK 9.2.(b) */
 
+        Thread t1 = new Thread(new Bubble_ab());
+        Thread t2 = new Thread(new Bubble_bc());
+        Thread t3 = new Thread(new Bubble_cd());
 
-
+        t1.start();
+        t2.start();
+        t3.start();
 
         // set a task to the sorter:
         System.out.println("Starting");
         state.set_all(5,1,3,1);
         state.wait_until_sorted();
         System.out.println("Finishing");
+        System.exit(0);
     }
 
 }
