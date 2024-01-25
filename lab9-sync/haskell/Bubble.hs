@@ -11,6 +11,10 @@ main =
     -- create and start some threads:
     -- *** TASK 9.2.(d) ***
 
+    forkIO $ bubble_ab stateTV
+    forkIO $ bubble_bc stateTV
+    forkIO $ bubble_cd stateTV
+
     -- give the state a sorting task:
     putStrLn "Starting"
     set_all stateTV 5 1 3 1
@@ -116,4 +120,7 @@ waitUntilSorted stateTV =
         let (State a b c d isPrinting) = state
         -- check whether sorted and block if not yet:
         -- *** TASK 9.2.(e) ***
-        pure () -- remove this line, replace with task solution
+        if (a <= b && b <= c && c <= d)
+            then pure ()
+        else
+            retry
